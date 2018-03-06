@@ -17,6 +17,7 @@ class SetsViewController: UIViewController {
         
         //        DataManager.shared.uploadData()
         upload()
+//        download()
     }
     let image = UIImage(named: "pic.JPG")!
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +83,45 @@ class SetsViewController: UIViewController {
                                     }
                                     
                                     return nil;
+        }
+    }
+    
+    
+    
+    
+    
+    func download() {
+        let expression = AWSS3TransferUtilityDownloadExpression()
+        expression.progressBlock = {(task, progress) in
+            DispatchQueue.main.async {
+                // Do something e.g. Update a progress bar.
+            }
+        }
+        
+        var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
+        completionHandler = { (task, URL, data, error) -> Void in
+            DispatchQueue.main.async {
+                print(error)
+                var imageUIImage: String = String(data: data!, encoding: .utf8)!
+                print(imageUIImage)
+//                var imageVi: UIImageView = UIImageView(image: imageUIImage)
+                // Do something e.g. Alert a user for transfer completion.
+                // On failed downloads, `error` contains the error object.
+            }
+        }
+        
+        let transferUtility = AWSS3TransferUtility.default()
+        transferUtility.downloadData(fromBucket: "rm-deployments-mobilehub-1354391713", key: "test.txt", expression: expression, completionHandler: completionHandler).continueWith {
+            (task) -> AnyObject! in
+            if let error = task.error {
+                print("Error: \(error.localizedDescription)")
+            }
+            
+            if let _ = task.result {
+                // Do something with downloadTask.
+                
+            }
+            return nil;
         }
     }
 }
