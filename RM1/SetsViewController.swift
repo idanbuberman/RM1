@@ -12,118 +12,69 @@ import AWSS3
 
 class SetsViewController: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //        DataManager.shared.uploadData()
-        upload()
-//        download()
-    }
-    let image = UIImage(named: "pic.JPG")!
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var downloadedImage: UIImageView!
+    
+    let key: String = "picFat.jpg"
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        var imageView = UIImageView(image: image)
-//        view.addSubview(imageView)
-//        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        uploadImage()
     }
-    
-    
-    
-    
-    
-    func upload() {
-        
-        var data = Data() // The data to upload
-//        data = UIImagePNGRepresentation(image)!
-        data = "idan buberman test".data(using: String.Encoding.utf8)!
+    func uploadImage() {
+        var data: Data = Data() // The data to upload
 
+        let image = UIImage(named: "Image")
+        data = UIImageJPEGRepresentation(image!, 0.9)!
+        
         let expression = AWSS3TransferUtilityUploadExpression()
         expression.progressBlock = { (task, progress) in
             DispatchQueue.main.async {
-                // Update a progress bar.
-                //                self.progressView.progress = Float(progress.fractionCompleted)
+                self.progressBar.observedProgress = progress
             }
         }
-        
-        let completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock = { (task, error) -> Void in
+
+        DataManager.shared.uploadData(data: data, key: key, expression: expression) { (task, error) -> Void in
             DispatchQueue.main.async {
                 if let error = error {
                     NSLog("Failed with error: \(error)")
                 }
-                //                else if(self.progressView.progress != 1.0) {
-                //                    NSLog("Error: Failed.")
-                //                } else {
-                //                    NSLog("Success.")
-                //                }
+                else if(self.progressBar.progress != 1.0) {
+                    NSLog("Error: Failed.")
+                } else {
+                    NSLog("Success.")
+                }
             }
         }
-        
-        var refUploadTask: AWSS3TransferUtilityTask?
-        let transferUtility = AWSS3TransferUtility.default()
-        let bucketName: String = "rm-deployments-mobilehub-1354391713"
-        let keyName: String = "test.txt"
-        let contentType: String = "texe/plain"//"image/JPG"
-        transferUtility.uploadData(data, bucket: bucketName,
-                                   key: keyName,
-                                   contentType: contentType,
-                                   expression: expression,
-                                   completionHandler: completionHandler).continueWith { (task) -> AnyObject! in
-                                    if let error = task.error {
-                                        print("Error: \(error.localizedDescription)")
-                                    }
-                                    
-                                    if let uploadTask = task.result {
-                                        // Do something with uploadTask.
-                                        // The uploadTask can be used to pause/resume/cancel the operation, retrieve task specific information
-                                        refUploadTask = uploadTask
-                                    }
-                                    
-                                    return nil;
-        }
     }
-    
-    
-    
-    
-    
-    func download() {
+
+    func downloadImage() {
+        self.downloadedImage.isHidden = true
+
         let expression = AWSS3TransferUtilityDownloadExpression()
-        expression.progressBlock = {(task, progress) in
+        expression.progressBlock = { (task, progress) in
             DispatchQueue.main.async {
-                // Do something e.g. Update a progress bar.
+                self.progressBar.observedProgress = progress
             }
         }
         
-        var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
-        completionHandler = { (task, URL, data, error) -> Void in
+        DataManager.shared.download(key: key, expression: expression) { (task, URL, data, error) -> Void in
             DispatchQueue.main.async {
-                print(error)
-                var imageUIImage: String = String(data: data!, encoding: .utf8)!
-                print(imageUIImage)
-//                var imageVi: UIImageView = UIImageView(image: imageUIImage)
-                // Do something e.g. Alert a user for transfer completion.
-                // On failed downloads, `error` contains the error object.
+                if let error = error {
+                    print(error)
+                } else {
+                    if let pic = UIImage(data: data!) {
+                        UIView.animate(withDuration: 1.0) {
+                            self.downloadedImage.image = pic
+                            self.downloadedImage.isHidden = false
+                            self.progressBar.isHidden = true
+                        }
+                    }
+                }
             }
-        }
-        
-        let transferUtility = AWSS3TransferUtility.default()
-        transferUtility.downloadData(fromBucket: "rm-deployments-mobilehub-1354391713", key: "test.txt", expression: expression, completionHandler: completionHandler).continueWith {
-            (task) -> AnyObject! in
-            if let error = task.error {
-                print("Error: \(error.localizedDescription)")
-            }
-            
-            if let _ = task.result {
-                // Do something with downloadTask.
-                
-            }
-            return nil;
         }
     }
-}
+ }
 
 

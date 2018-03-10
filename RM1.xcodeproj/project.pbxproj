@@ -25,7 +25,7 @@
 		A0B4535220496748007A6EAB /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B4535420496748007A6EAB /* AWSS3.framework */; };
 		A0B45356204A15FB007A6EAB /* SetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B45355204A15FB007A6EAB /* SetsViewController.swift */; };
 		A0B45358204ADADB007A6EAB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B45357204ADADB007A6EAB /* DataManager.swift */; };
-		A0B4535A204AE54A007A6EAB /* pic.JPG in Resources */ = {isa = PBXBuildFile; fileRef = A0B45359204AE54A007A6EAB /* pic.JPG */; };
+		A0DDD2152053FE6300B5C8B7 /* RecordVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DDD2142053FE6300B5C8B7 /* RecordVideoViewController.swift */; };
 		B2A596B2C8742916DEBB9579 /* Pods_RM1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A513A9626452227633492FA0 /* Pods_RM1Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +75,7 @@
 		A0B4535420496748007A6EAB /* AWSS3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AWSS3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0B45355204A15FB007A6EAB /* SetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetsViewController.swift; sourceTree = "<group>"; };
 		A0B45357204ADADB007A6EAB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		A0B45359204AE54A007A6EAB /* pic.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pic.JPG; sourceTree = "<group>"; };
+		A0DDD2142053FE6300B5C8B7 /* RecordVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVideoViewController.swift; sourceTree = "<group>"; };
 		A513A9626452227633492FA0 /* Pods_RM1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RM1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B49D8B9A2598557D54DC7BBD /* Pods-RM1UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RM1UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RM1UITests/Pods-RM1UITests.release.xcconfig"; sourceTree = "<group>"; };
 		BF45D7D74BC49F7115B8DC4A /* Pods-RM1Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RM1Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RM1Tests/Pods-RM1Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -144,11 +144,11 @@
 				A06912CB204819B600333FFA /* AppDelegate.swift */,
 				A06912CD204819B600333FFA /* ViewController.swift */,
 				A0B45355204A15FB007A6EAB /* SetsViewController.swift */,
+				A0DDD2142053FE6300B5C8B7 /* RecordVideoViewController.swift */,
 				A0B45357204ADADB007A6EAB /* DataManager.swift */,
 				A06912CF204819B600333FFA /* Main.storyboard */,
 				A06912D2204819B600333FFA /* Assets.xcassets */,
 				A06912D4204819B600333FFA /* LaunchScreen.storyboard */,
-				A0B45359204AE54A007A6EAB /* pic.JPG */,
 				A06912F920481A6000333FFA /* awsconfiguration.json */,
 				A06912D7204819B600333FFA /* Info.plist */,
 			);
@@ -320,7 +320,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A06912FA20481A6000333FFA /* awsconfiguration.json in Resources */,
-				A0B4535A204AE54A007A6EAB /* pic.JPG in Resources */,
 				A06912D6204819B600333FFA /* LaunchScreen.storyboard in Resources */,
 				A06912D3204819B600333FFA /* Assets.xcassets in Resources */,
 				A06912D1204819B600333FFA /* Main.storyboard in Resources */,
@@ -520,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A06912CE204819B600333FFA /* ViewController.swift in Sources */,
+				A0DDD2152053FE6300B5C8B7 /* RecordVideoViewController.swift in Sources */,
 				A0B45358204ADADB007A6EAB /* DataManager.swift in Sources */,
 				A0B45356204A15FB007A6EAB /* SetsViewController.swift in Sources */,
 				A06912CC204819B600333FFA /* AppDelegate.swift in Sources */,
