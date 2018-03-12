@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MobileCoreServices
 
-class RecordVideoViewController: UIViewController {
+class RecordVideoViewController: UIViewController, UINavigationControllerDelegate {
     func startCameraFromViewController(_ viewController: UIViewController, withDelegate delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) -> Bool {
         if UIImagePickerController.isSourceTypeAvailable(.camera) == false {
             return false
@@ -27,12 +27,34 @@ class RecordVideoViewController: UIViewController {
     }
     
     @IBAction func record(sender: AnyObject) {
-        startCameraFromViewController(self, withDelegate: self)
+        _ = startCameraFromViewController(self, withDelegate: self)
     }
 }
 
 extension RecordVideoViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+        // Handle a movie capture
+        if mediaType == kUTTypeMovie {
+            guard let path = (info[UIImagePickerControllerMediaURL] as! NSURL).path else { return }
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path) {
+                UISaveVideoAtPathToSavedPhotosAlbum(path, self, #selector(RecordVideoViewController.video(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+            }
+        }
+    }
+    
+    @objc func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
+        DataManager.shared.uploadData(url: URL(string: videoPath as String)!, key: "pahg.mov", completion: {_,_  in})
+        var title = "Success"
+        var message = "Video was saved"
+        if let _ = error {
+            title = "Error"
+            message = "Video failed to save"
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
-extension RecordVideoViewController: UINavigationControllerDelegate {
-}

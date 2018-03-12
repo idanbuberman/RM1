@@ -45,5 +45,7 @@
 	<string>hi</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>nodnik</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>fuck off</string>
 </dict>
 </plist>
